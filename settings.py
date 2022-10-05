@@ -9,4 +9,4 @@ class Settings(BaseSettings):
 
         case_sensitive = False
         env_file = ".env"
-        env_file_encoding = "uft-8"
+        env_file_encoding = "utf-8"
