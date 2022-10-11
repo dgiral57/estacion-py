@@ -8,7 +8,7 @@ class Aplication(Tk):
         super().__init__()
         self.title(title)
         self.iconbitmap('icon.ico')
-        self.geometry('600x600')
+        self.state('zoomed')
         self.bgImage = Image.open('bg.jpg')
         self.bgImage2 = ImageTk.PhotoImage(self.bgImage)
         self.label = Label(self,image=self.bgImage2)
