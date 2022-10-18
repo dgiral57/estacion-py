@@ -1,7 +1,7 @@
 from pydantic import BaseSettings
 
 class Settings(BaseSettings):
-    PORT: str
+    PORT: str = "COM6"
     BAUDRATE: int = 115200
 
     class Config:
