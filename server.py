@@ -43,16 +43,32 @@ def serverValues(values:Values):
     return response
 
 @app.get("/values/")
-def get_values(size: int = 10):
+def get_values(type: str | None = None, size: int = 10):
     conn = sqlite3.connect('datos.db', check_same_thread=False)
     c = conn.cursor()
-    res = c.execute("SELECT * FROM datos ORDER BY id DESC LIMIT :size",{"size": size})
+    if type == "temperature":
+        res = c.execute("SELECT id, Temperature, date FROM datos ORDER BY id DESC LIMIT :size",{"size": size})
+    elif type == "humidity":
+        res = c.execute("SELECT id, humidity, date FROM datos ORDER BY id DESC LIMIT :size",{"size": size})
+    elif type == "pressure":
+        res = c.execute("SELECT id, pressure, date FROM datos ORDER BY id DESC LIMIT :size",{"size": size})
+    else:
+        res = c.execute("SELECT * FROM datos ORDER BY id DESC LIMIT :size",{"size": size})
+
     tupla = res.fetchall()
     conn.close()
     response = []
     for x in range(size):
         data = tupla.pop()
-        response.append({"temperature": data[1], "humidity": data[2], "pressure": data[3], "time": data[4]})
+        if type == "temperature":
+            response.append({"temperature": data[1], "time": data[2]})
+        elif type == "humidity":
+            response.append({"humidity": data[1], "time": data[2]})
+        elif type == "pressure":
+            response.append({"pressure": data[1], "time": data[2]})
+        else:
+            response.append({"temperature": data[1], "humidity": data[2], "pressure": data[3], "time": data[4]})
+
     return response
 
 if __name__=="__main__":
